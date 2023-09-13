@@ -32,7 +32,17 @@ void main() {
       ).thenAnswer((_) async => const Right(null));
       //Act
       final result = await usecase(params);
+
       //Assert
+      expect(result, equals(const Right<dynamic, void>(null)));
+      verify(
+        () => repository.createUser(
+            createdAt: params.createdAt,
+            name: params.name,
+            avatar: params.avatar),
+      ).called(1);
+
+      verifyNoMoreInteractions(repository);
     },
   );
 }
