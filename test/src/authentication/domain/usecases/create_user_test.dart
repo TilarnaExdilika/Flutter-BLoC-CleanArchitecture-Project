@@ -3,8 +3,7 @@ import 'package:flutter_bloc_clean_arh_project/src/authentication/domain/usecase
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_bloc_clean_arh_project/src/authentication/domain/repositories/authentication_repository.dart';
-
-class MockAuthRepo extends Mock implements AuthenticationRepository {}
+import 'authentication_repository.mock.dart';
 
 void main() {
   late CreateUser usecase;
