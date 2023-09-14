@@ -20,7 +20,7 @@ class UserModel extends User {
         );
 
   factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(jsonEncode(source) as DataMap);
+      UserModel.fromMap(json.decode(source) as DataMap);
 
   UserModel.fromMap(DataMap map)
       : this(
