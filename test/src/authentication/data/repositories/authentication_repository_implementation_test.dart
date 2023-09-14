@@ -3,6 +3,7 @@ import 'package:flutter_bloc_clean_arh_project/core/errors/exceptions.dart';
 import 'package:flutter_bloc_clean_arh_project/core/errors/failure.dart';
 import 'package:flutter_bloc_clean_arh_project/src/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:flutter_bloc_clean_arh_project/src/authentication/data/repositories/authentication_repository_implementation.dart';
+import 'package:flutter_bloc_clean_arh_project/src/authentication/domain/entities/user.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -56,7 +57,7 @@ void main() {
     });
 
     test(
-      'should return a [ServerFailure] when the call to the remote'
+      'should return a [APIFailure] when the call to the remote'
       'source is unsuccessful',
       () async {
         // Arrange
@@ -76,7 +77,7 @@ void main() {
           result,
           equals(
             Left(
-              ApiFailure(
+              APIFailure(
                 message: tException.message,
                 statusCode: tException.statusCode,
               ),
@@ -89,6 +90,38 @@ void main() {
               name: name,
               avatar: avatar,
             )).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+  });
+
+  group('getUsers', () {
+    test(
+      'should call the [RemoteDataSource.getUsers] and return [List<User>]'
+      'when call to remote source is successful ',
+      () async {
+        when(() => remoteDataSource.getUsers()).thenAnswer(
+          (_) async => [],
+        );
+
+        final result = await repoIml.getUsers();
+
+        expect(result, isA<Right<dynamic, List<User>>>());
+        verify(() => remoteDataSource.getUsers()).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+
+    test(
+      'should return a [APIFailure] when the call to the remote'
+      'source is unsuccessful',
+      () async {
+        when(() => remoteDataSource.getUsers()).thenThrow(tException);
+
+        final result = await repoIml.getUsers();
+
+        expect(result, equals(Left(APIFailure.fromException(tException))));
+        verify(() => remoteDataSource.getUsers()).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
     );
