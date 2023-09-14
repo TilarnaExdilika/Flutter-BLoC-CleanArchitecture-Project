@@ -22,5 +22,5 @@ class User extends Equatable {
   final String avatar;
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, name, avatar];
 }
