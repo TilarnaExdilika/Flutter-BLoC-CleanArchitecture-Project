@@ -17,8 +17,11 @@ class AutnRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     required String name,
     required String avatar,
   }) async {
-    // check to make sure that it returns the first data when the response
+    // 1. check to make sure that it returns the first data when the response
     // code is 200 or proper response code
+    // 2. check to make sure that it "THROW AND CUSTOM EXCEPTION" with the right
+    // message when status code is the bad one
+
     // TODO: implement createUser
     throw UnimplementedError();
   }
